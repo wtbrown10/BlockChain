@@ -1,10 +1,34 @@
 package com.will;
 
 import java.util.Arrays;
+import java.util.Date;
+
 
 public class Block {
 
-    private String[] transactions;
+    public String hash;
+    public String previousHash;
+    private String data; //data will be a simple message.
+    private long timeStamp; //as number of milliseconds since 1/1/1970
+
+    public Block(String data, String previousHash) {
+        this.data = data;
+        this.previousHash = previousHash;
+        this.timeStamp = new Date().getTime();
+        this.hash = calculateHash(); //Making sure we do this after we set the values.
+    }
+
+    public String calculateHash() {
+        String calculatedHash = StringUtil.applySha256(
+                previousHash +
+                        Long.toString(timeStamp) +
+                        data);
+        return calculatedHash;
+    }
+
+
+
+  /*  private String[] transactions;
     private int blockHash;
     private int previousBlockHash;
 
@@ -45,5 +69,5 @@ public class Block {
 
     public void setPreviousBlockHash(int previousBlockHash) {
         this.previousBlockHash = previousBlockHash;
-    }
+    }*/
 }
